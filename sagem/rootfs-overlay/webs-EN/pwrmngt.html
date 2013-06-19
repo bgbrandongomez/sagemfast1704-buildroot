@@ -1,0 +1,44 @@
+<html>
+<head>
+<meta HTTP-EQUIV='Pragma' CONTENT='no-cache'>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel=stylesheet href='stylemain.css' type='text/css'>
+<link rel=stylesheet href='colors.css' type='text/css'>
+
+<script language="javascript" src="util.js"></script>
+<script language="javascript">
+<!-- hide
+
+var chipId = <%ejGetOther(sysInfo, chipId)%>
+
+
+function frmLoad() {
+
+   var loc;
+
+   if ( chipId == '6358' ) {
+     document.writeln("<b>BCM6358 Power Management</b><br>");
+     loc = 'pwrmngt6358.html';
+   } else if ( chipId == '6368' ) {
+     document.writeln("<b>BCM6368 Power Management</b><br>");
+     loc = 'pwrmngt6368.html';
+   } else {
+     document.writeln("Chip not supported for power management");
+     return 0;
+   }
+
+   var code = 'location="' + loc + '"';
+   eval(code);
+
+}
+
+// done hiding -->
+</script>
+</head>
+
+<body onLoad='frmLoad()'>
+</body>
+
+</html>
+
+

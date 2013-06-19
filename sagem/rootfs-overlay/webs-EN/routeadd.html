@@ -1,0 +1,173 @@
+<html>
+   <head>
+      <meta HTTP-EQUIV='Pragma' CONTENT='no-cache'>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" href='stylemain.css' type='text/css'>
+         <link rel="stylesheet" href='colors.css' type='text/css'>
+            <script language="javascript" src="util.js"></script>
+            <script language="javascript">
+<!-- hide
+
+function hideNextHopInfo(hide) {
+   var status = 'visible';
+
+   if ( hide == 1 )
+      status = 'hidden';
+
+   if (document.getElementById)
+   {  // DOM3 = IE5, NS6
+        document.getElementById('nexthop').style.visibility = status;
+   }
+   else 
+   {
+      if (document.layers == false) // IE4
+         document.all.nexthop.style.visibility = status;
+   }
+}
+
+function changeSelect(OnPageLoad) 
+{
+   with ( document.forms[0] ) 
+   {
+      var idx = dstWanIf.selectedIndex;
+      var ifc = dstWanIf.options[idx].value;
+
+      if ( ifc.indexOf('ppp') == -1 ) 
+      {
+         hideNextHopInfo(0);
+      }
+      else
+      {
+         hideNextHopInfo(1);
+      }
+   }
+}
+
+function btnApply() 
+{
+   var loc = 'rtroutecfg.cmd?action=add';
+   with ( document.forms[0] ) 
+   {
+      if ( isValidIpAddress(dstAddr.value) == false ) 
+      {
+         alert('Destination "' + dstAddr.value + '" has invalid IP address.');
+         return;
+      }
+      if ( isValidIpAddress(dstMask.value) == false &&  dstMask.value != '255.255.255.255') 
+      {
+         alert('Subnet mask "' + dstMask.value + '" has invalid IP address.');
+         return;
+      }
+      loc += '&dstAddr=' + dstAddr.value;
+      loc += '&dstMask=' + dstMask.value;
+
+         var idx = dstWanIf.selectedIndex;
+         var ifc = dstWanIf.options[idx].value;
+	  // bug 3833: The gateway IP could be omitted when adding a static route entry, Modified by Min, 06/08/2010
+      // if chosen interface is IPoE/IPoA but does not specify static IP address then display error
+      if ( ifc.indexOf('ppp') == -1 && isValidIpAddress(dstGtwy.value) == false ) 
+      {
+		 if (dstGtwy.value != '')  // IP could be omitted
+		 {
+		    alert('Gateway IP address should be correctly configured if IP based interface (IPoE, IPoA) is selected.');
+            return;
+         }
+      }
+	  // bug 3833 end
+	  
+         loc += '&dstWanIf=' + ifc;
+
+      if (ifc.indexOf('ppp') == -1) 
+      {
+         loc += '&dstGtwy=' + dstGtwy.value;
+      }
+      else
+      {
+         loc += '&dstGtwy=' + '';  // bug 3833
+      }
+   }
+   var code = 'location="' + loc + '"';
+   eval(code);
+}
+
+function frmLoad() 
+{
+   with ( document.forms[0] ) 
+   {
+      var i = 0;
+      var interfaceInfo = '<%ejGetOther(wanInterfaceInfo, route)%>';
+      var interfaces = interfaceInfo.split('|');
+      var names = interfaces[i].split('/');
+	  
+      if (interfaceInfo == '' || names[1].indexOf('ppp') == -1 ) 
+         hideNextHopInfo(0);
+      else
+         hideNextHopInfo(1);
+   }
+}
+
+// done hiding -->
+</script>
+   </head>
+   <body onLoad='frmLoad()'>
+      <blockquote>
+         <form>
+            <b>Routing -- Static Route Add</b><br>
+            <br>
+            Enter the destination network address, subnet mask, gateway AND/OR available WAN interface then click "Apply/Save" to add the entry to the routing table.<br>
+            <br>
+            <br>
+            <table border="0" cellpadding="0" cellspacing="0">
+               <tr>
+                  <td width="180">Destination Network Address:</td>
+                  <td><input type='text' name='dstAddr'></td>
+               </tr>
+               <tr>
+                  <td>Subnet Mask:</td>
+                  <td><input type='text' name='dstMask'></td>
+               </tr>
+            </table>
+            <br>
+            <table>
+               <tr>
+                  <td>Use Interface</td>
+                  <td><select name='dstWanIf' onChange='changeSelect(1)'>
+<script language="javascript">
+<!-- hide
+{
+   var i = 0;
+   var interfaceInfo = '<%ejGetOther(wanInterfaceInfo, route)%>';
+   var interfaces = interfaceInfo.split('|');
+
+   if (interfaceInfo != '') {
+   for ( i = 0; i < interfaces.length; i++ ) {
+      var names = interfaces[i].split('/');
+      document.write("  <option value='" + names[1] + "'>");
+      document.writeln(interfaces[i]);
+   } 
+   } 
+   document.writeln("  <option value='br0'> LAN/br0");
+}
+// done hiding -->
+</script>
+                     </select></td>
+               </tr>
+            </table>
+
+            <div id='nexthop'>
+            <table border="0" cellpadding="0" cellspacing="0">
+               <tr>
+                  <td>Use Gateway IP Address&nbsp;&nbsp;</td>
+                  <td><input type='text' name='dstGtwy'></td>
+               </tr>
+            </table>
+            </div>
+
+            <br>
+            <center>
+               <input type='button' onClick='btnApply()' value='Apply/Save'>
+            </center>
+         </form>
+      </blockquote>
+   </body>
+</html>

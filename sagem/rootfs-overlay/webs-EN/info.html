@@ -1,0 +1,217 @@
+<script language="javascript">
+var currLayout='<%ejGetOther(sysInfo_sagem, currentWebUILayout)%>';
+if(currLayout>0)
+    document.writeln("<html style='direction: rtl;'>");
+else
+	document.writeln("<html>");
+</script>
+   <head>
+      <link rel="stylesheet" href='stylemain.css' type='text/css'>
+         <link rel="stylesheet" href='colors.css' type='text/css'>
+            <meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <meta http-equiv="refresh" content="20">
+            <title></title>
+            <base target="_self">
+        <style type="text/css">
+        <!--
+        .style8 {
+        font-size: large;
+        font-family: Georgia, "Times New Roman", Times, serif;
+        font-weight: bold;
+        color: #006934;
+        }
+        .style10 {font-size: large;
+        font-family: Georgia, "Times New Roman", Times, serif;
+        font-weight: bold;
+        color: #FFFFFF;
+        background-color: #006934;
+        }
+        -->
+        </style>
+   </head>
+   <body>
+      <blockquote>
+         <form>
+                <table width="60%" border="0" cellpadding="3" cellspacing="0">
+                    <tr>
+                        <td>
+                            <table border="1" cellpadding="0" cellspacing="0" bordercolor="#006934">
+                                <tr>
+                                    <td>
+                                        <span class="style10">
+                                        &nbsp;F@ST&#8482&nbsp;
+                                        </span>
+                                    </td>
+
+                                    <script language="javascript">
+                                    <!-- hide
+                                    var boardid = '<%ejGet(boardID)%>';
+                                    var boardid_len = boardid.length;
+                                    var boardid_sub = boardid.substring(4,boardid_len);
+                                    document.write("<td><span class=\"style8\">&nbsp;");
+                                    document.write(boardid_sub);
+                                    document.write("&nbsp;</span></td>");                   
+                                    // done hiding -->
+                                    </script>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            <b>Device Info<br> 
+               <br>
+               <table border="1" cellpadding="3" cellspacing="0">
+               <tr>
+                  <td class='hd'>Board ID:</td>
+                  <td><%ejGet(boardID)%></td>
+               </tr>
+               <tr>
+                  <td class='hd'>HardWare Version:</td>
+                  <td><%ejGetOther(sysInfo_sagem, hwversion)%></td>
+               </tr>
+               <tr>
+                  <td class='hd'>Serial Number:</td>
+                  <td><%ejGetOther(sysInfo_sagem, serialnum)%></td>
+               </tr>
+               <tr>
+                  <td class='hd'>Mac Address:</td>
+                  <td><%ejGetOther(sysInfo_sagem, macaddr)%></td>
+               </tr>
+               <tr>
+                  <td class='hd'>Software Version:</td>
+                  <td><%ejGet(sysVersion)%></td>
+               </tr>
+               <tr>
+                  <td class='hd'>Bootloader (CFE) Version:</td>
+                  <td><%ejGet(cfeVersion)%></td>
+               </tr>
+               
+<script language="javascript">
+<!-- hide
+var VdslIncluded = '<%ejGetOther(isVdsl, VdslIncluded)%>';
+
+
+
+// done hiding -->
+</script>
+
+<script language="javascript">
+<!-- hide
+if ('<%ejGetWl(wlInterface)%>' == '1') {
+  document.writeln("               <tr>");
+  document.writeln("                  <td class='hd'>Wireless Driver Version:</td>");
+  document.writeln("                  <td><%ejGetWl(wlVersion)%></td>");
+  document.writeln("               </tr>");
+}
+// done hiding -->
+</script>
+        </table>
+            <br>
+            </b>This information reflects the current status of your <b><%ejGetOther(sysInfo_sagem, Usb3GisUp)%></b> connection.<br>
+            <br>
+            <table border="1" cellpadding="3" cellspacing="0">
+               <tr>
+               
+<script language="javascript">
+<!-- hide
+var VdslIncluded = '<%ejGetOther(isVdsl, VdslIncluded)%>';
+if ( VdslIncluded == 0 ) {
+  document.write("<tr>");
+  document.write("<td class='hd'>Line Rate - Upstream (Kbps):</td>");
+  document.write("<td><%ejGetOther(lineRate, 0, 0)%></td>");
+  document.write("</tr>" );
+  document.write("<tr>");
+  document.write("<td class='hd'>Line Rate - Downstream (Kbps):</td>");
+  document.write("<td><%ejGetOther(lineRate, 1, 0)%></td>");
+  document.write("</tr>");
+}
+else {
+  document.write("<tr>");
+  document.write("<td class='hd'>B0 Traffic Type:</td>");
+  document.write("<td><%ejGetOther(trafficType, 0)%></td>");
+  document.write("</tr>");
+  document.write("<tr>");
+  document.write("<td class='hd'>B0 Line Rate - Upstream (Kbps):</td>");
+  document.write("<td><%ejGetOther(lineRate, 0, 0)%></td>");
+  document.write("</tr>");
+  document.write("<tr>");
+  document.write("<td class='hd'>B0 Line Rate - Downstream (Kbps):</td>");
+  document.write("<td><%ejGetOther(lineRate, 1, 0)%></td>");
+  document.write("</tr>");
+  document.write("<tr>");
+  document.write("<td class='hd'>B1 Traffic Type:</td>");
+  document.write("<td><%ejGetOther(trafficType, 1)%></td>");
+  document.write("</tr>");
+  document.write("<tr>");
+  document.write("<td class='hd'>B1 Line Rate - Upstream (Kbps):</td>");
+  document.write("<td><%ejGetOther(lineRate, 0, 1)%></td>");
+  document.write("</tr>");
+  document.write("<tr>");
+  document.write("<td class='hd'>B1 Line Rate - Downstream (Kbps):</td>");
+  document.write("<td><%ejGetOther(lineRate, 1, 1)%></td>");
+  document.write(" </tr>");
+}
+// done hiding -->
+</script>
+               <tr>
+                  <td class='hd'>LAN IPv4 Address (Modem):</td>
+                  <td><%ejGetOther(sysInfo, lanAddr)%></td>
+               </tr>
+               <tr>
+                  <td class='hd'>WAN IPv4 Address:</td>
+                  <td><%ejGetOther(sysInfo_sagem, wanip)%></td>
+               </tr>
+               <tr>
+                  <td class='hd'>Default Gateway:</td>
+<script language="javascript">
+<!-- hide
+var dfltGw = '<%ejGetOther(sysInfo_sagem, dftgw)%>';
+//var dfltGwIfc = '<%ejGetOther(sysInfo, dfltGwIfc)%>';
+//if ( dfltGw != '&nbsp' )
+  document.writeln("                  <td>" + dfltGw + "</td>");
+//else
+//  document.writeln("                  <td>" + dfltGwIfc + "</td>");
+// done hiding -->
+</script>
+               </tr>
+               <tr>
+                  <td class='hd'>Primary DNS Server:</td>
+                  <td><%ejGetOther(sysInfo, dns1)%></td>
+               </tr>
+               <tr>
+                  <td class='hd'>Secondary DNS Server:</td>
+                  <td><%ejGetOther(sysInfo, dns2)%></td>
+               </tr>
+<script language="javascript">
+<!-- hide
+if ('<%ejGetOther(sysInfo, enblIPv6)%>' == '1') {
+  document.writeln("             <tr>");
+  document.writeln("                <td class='hd'>LAN IPv6 Address (Modem):</td>");
+  document.writeln("                <td><%ejGetOther(sysInfo, lanAddr6)%></td>");
+  document.writeln("             </tr>");
+  document.writeln("             <tr>");
+  document.writeln("                <td class='hd'>Default IPv6 Gateway:</td>");
+  document.writeln("                <td><%ejGetOther(sysInfo, dfltGw6)%> <%ejGetOther(sysInfo, dfltGw6Ifc)%></td>");
+  document.writeln("             </tr>");
+}
+// done hiding -->
+</script>
+<script language="javascript">
+<!-- hide
+var buildSntp = '<%ejGetOther(sysInfo, buildSntp)%>';
+var proto = '<%ejGetOther(sysInfo, noBrPrtcl)%>';
+
+if ( buildSntp == '1' && proto != 'Bridge' ) {
+  document.writeln("               <tr>");
+  document.writeln("                  <td class='hd'>Date/Time:</td>");
+  document.writeln("                  <td><%ejGetOther(sysInfo, dateTime)%></td>");
+  document.writeln("               </tr>");
+}
+// done hiding -->
+</script>
+            </table>
+         </form>
+      </blockquote>
+   </body>
+</html>

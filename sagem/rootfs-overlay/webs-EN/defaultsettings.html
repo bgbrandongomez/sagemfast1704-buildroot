@@ -1,0 +1,42 @@
+<script language="javascript">
+var currLayout='<%ejGetOther(sysInfo_sagem, currentWebUILayout)%>';
+if(currLayout>0)
+    document.writeln("<html style='direction: rtl;'>");
+else
+	document.writeln("<html>");
+</script>
+   <head>
+      <meta HTTP-EQUIV='Pragma' CONTENT='no-cache'>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" href='stylemain.css' type='text/css'>
+         <link rel="stylesheet" href='colors.css' type='text/css'>
+            <script language="javascript">
+<!-- hide
+
+function restoreClick() {
+   var loc = 'restoreinfo.cgi';
+
+   var code = 'location="' + loc + '"';
+
+   if (confirm("Are you sure you want to restore factory default settings?"))
+      eval(code);
+}
+
+// done hiding -->
+</script>
+   </head>
+   <body>
+      <blockquote>
+         <form>
+            <b>Tools -- Restore Default Settings</b><br>
+            <br>
+            Restore DSL router settings to the factory defaults.<br>
+            <br>
+            Warning: Current configuration settings may be lost!<br>
+            <br>
+            <br>
+            <p align="center"><input type='button' value='Restore Default Settings' onClick='restoreClick()'></p>
+         </form>
+      </blockquote>
+   </body>
+</html>

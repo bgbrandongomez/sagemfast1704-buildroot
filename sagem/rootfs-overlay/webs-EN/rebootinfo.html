@@ -1,0 +1,49 @@
+<script language="javascript">
+var currLayout='<%ejGetOther(sysInfo_sagem, currentWebUILayout)%>';
+if(currLayout>0)
+    document.writeln("<html style='direction: rtl;'>");
+else
+	document.writeln("<html>");
+</script>
+
+<head>
+<meta HTTP-EQUIV='Pragma' CONTENT='no-cache'>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel=stylesheet href='stylemain.css' type='text/css'>
+<link rel=stylesheet href='colors.css' type='text/css'>
+<script language="javascript">
+<!-- hide
+
+function reboot() {
+   var enblPopWin = '<%ejGet(enblPopWin)%>';
+   var loc = 'main.html';
+   var code = 'window.top.location="' + loc + '"';
+
+   if ( enblPopWin == '1' ) {
+      loc = 'index.html';
+      code = 'location="' + loc + '"';
+   }
+
+   eval(code);
+}
+
+function frmLoad() {
+   setTimeout("reboot()", 60000);
+}
+
+// done hiding -->
+</script>
+</head>
+
+<body onLoad='frmLoad()'>
+<blockquote>
+	
+<b>DSL Router Reboot</b><br><br>
+The DSL Router is rebooting.
+<br><br>
+Close the DSL Router Configuration window and wait for 2 minutes before reopening your web browser.
+
+
+</blockquote>
+</body>
+</html>

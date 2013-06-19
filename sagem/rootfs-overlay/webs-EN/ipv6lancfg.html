@@ -1,0 +1,311 @@
+<html>
+   <head>
+      <meta HTTP-EQUIV='Pragma' CONTENT='no-cache'>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" href='stylemain.css' type='text/css'>
+         <link rel="stylesheet" href='colors.css' type='text/css'>
+            <script language="javascript" src="util.js"></script>
+            <script language="javascript">
+<!-- hide
+var enblRadvdaemon = '<%ejGetOther(enblRadvd, all)%>';
+var prfxCfgType = '<%ejGetOther(sysInfo, sitePrefixType)%>';
+var prfx = '<%ejGetOther(sysInfo, sitePrefix)%>';
+if ( prfx == '&nbsp' ) prfx = '';
+var pdIfc = '<%ejGetOther(sysInfo, pdWanIfc)%>';
+if ( pdIfc == '&nbsp' ) pdIfc = '';
+
+var enblDhcps = '<%ejGetOther(enblDhcp6s, all)%>';
+var enblMldSnp = '<%ejGetOther(sysInfo, enblMldSnp)%>';
+var enblMldMode = '<%ejGetOther(sysInfo, enblMldMode)%>';
+
+function hideMldSnpInfo(hide) {
+   var status = 'visible';
+
+   if ( hide == 1 )
+      status = 'hidden';
+   if (document.getElementById)  // DOM3 = IE5, NS6
+      document.getElementById('mldSnpInfo').style.visibility = status;
+   else {
+      if (document.layers == false) // IE4
+         document.all.mldSnpInfo.style.visibility = status;
+   }
+}
+
+function disablePdWanConn() {
+   with ( document.forms[0] ) {
+      wanIf.disabled = 1;
+   }
+}
+
+function enablePdWanConn() {
+   with ( document.forms[0] ) {
+      wanIf.disabled = 0;
+   }
+}
+
+function disableStaticPrefix() {
+   with ( document.forms[0] ) {
+      prefix.disabled    = 1;
+      prefixLen.disabled = 1;
+   }
+}
+
+function enableStaticPrefix() {
+   with ( document.forms[0] ) {
+      prefix.disabled    = 0;
+      prefixLen.disabled = 0;
+   }
+}
+
+function prefixTypeClick() {
+   with ( document.forms[0] ) {
+      if (prfx == '') {
+         prefix.value = '';
+         prefixLen.value = ''; 
+      }
+      else {
+         var prefixList = prfx.split(',');
+         var onePrefix = prefixList[0].split('/');
+
+         prefix.value = onePrefix[0];
+         if (isValidPrefixLength(onePrefix[1]) == true)
+            prefixLen.value = onePrefix[1];
+         else
+            prefixLen.value = ''; 
+      }
+      if ( prefixType[0].checked == true ) {
+         disableStaticPrefix();
+         enablePdWanConn()
+      }
+      else {
+         disablePdWanConn()
+         enableStaticPrefix();
+      }
+   }
+}
+
+function radvdClick(cb) {
+}
+
+function dhcp6sClick(cb) {
+}
+
+function hideMldSnpInfo(hide) {
+   var status = 'visible';
+
+   if ( hide == 1 )
+      status = 'hidden';
+   if (document.getElementById)  // DOM3 = IE5, NS6
+      document.getElementById('mldSnpInfo').style.visibility = status;
+   else {
+      if (document.layers == false) // IE4
+         document.all.mldSnpInfo.style.visibility = status;
+   }
+}
+
+function mldClick(cb) {
+   if (cb.checked == true)
+      hideMldSnpInfo(0)
+   else
+      hideMldSnpInfo(1);
+}
+
+function btnApply() {
+   var loc = 'ipv6lancfg.cmd?action=savapply';
+
+   with ( document.forms[0] ) {
+      if (enableRadvd.checked == true)
+         loc += '&enblRadvd=1';
+      else
+         loc += '&enblRadvd=0';
+
+      if (prefixType[0].checked == true) {
+         var idx = wanIf.selectedIndex;
+         var ifc = wanIf.options[idx].value;
+
+         if (ifc == '&nbsp' || ifc == '') {
+            alert('A WAN connection is not selected.');
+            return;
+         }
+         loc += '&sitePrefixType=Delegated&pdWanIfc=' + ifc;
+      }
+      else {
+         if (prefix.value == '' || prefixLen.value == '') {
+            alert('Either IPv6 Site Prefix or Prefix Length is not specified.');
+            return;
+         }
+         if (isValidIpAddress6(prefix.value) == false ) {
+            alert('IPv6 Site Prefix "' + prefix.value + '" is invalid address.');
+            return;
+         }
+         if (isValidPrefixLength(prefixLen.value) == false ) {
+            alert('IPv6 Site Prefix Length "' + prefixLen.value + '" is invalid.');
+            return;
+         }
+         loc += '&sitePrefixType=Static&sitePrefix=' + prefix.value + '/' + prefixLen.value;
+      }
+
+      if (enableDhcp6s.checked == true) {
+         loc += '&enblDhcp6s=1';
+      }
+      else {
+         loc += '&enblDhcp6s=0';
+      }
+
+     if ( chkMldSnp.checked == true )
+        loc += '&enblMldSnp=1';
+     else
+        loc += '&enblMldSnp=0';
+
+     if ( mldMode[1].checked == true )
+        loc += '&enblMldMode=1';
+     else
+        loc += '&enblMldMode=0';
+
+      
+   }
+   var code = 'location="' + loc + '"';
+   eval(code);
+}
+
+
+function frmLoad() {
+   with ( document.forms[0] ) {
+      enableRadvd.checked = false;
+      prefixType[0].checked = false;
+      prefixType[1].checked = false;
+
+      if (prfxCfgType == 'Delegated') {
+         prefixType[0].checked = true;
+      }
+      else if (prfxCfgType == 'Static') {
+         prefixType[1].checked = true;
+      }
+      else {
+         prefixType[0].checked = true;  //default is delegated
+      }
+
+      if (enblRadvdaemon == '1') {
+         enableRadvd.checked = true;
+      }
+      prefixTypeClick();
+
+      enableDhcp6s.checked = false;
+      
+      if (enblDhcps == '1') {
+         enableDhcp6s.checked = true;
+      }
+
+      if ( enblMldSnp == '1' ) {
+        chkMldSnp.checked = true;
+        hideMldSnpInfo(0);
+      } else {
+        chkMldSnp.checked = false;
+        hideMldSnpInfo(1);
+      }
+
+      if ( enblMldMode == '1' ) {
+    	mldMode[0].checked = false;
+    	mldMode[1].checked = true;
+      } else {
+        mldMode[0].checked = true;
+        mldMode[1].checked = false;
+      }
+   }
+}
+
+// done hiding -->
+</script>
+   </head>
+   <body onLoad='frmLoad()'>
+      <blockquote>
+         <form>
+            <P>
+               <b>IPv6 LAN Host Configuration</b><br><br>
+            </P>
+            <table border='0' cellpadding='0' cellspacing='0'>
+               <tr>
+                  <td valign='center' align='middle' colspan='2' width='30' height='30'>
+                     <input type='checkbox' name='enableDhcp6s' onClick='dhcp6sClick(this)'></td>
+                  <td colspan='2'>Enable DHCPv6 Server</td>
+               </tr>
+            </table><br>
+            <table border='0' cellpadding='0' cellspacing='0'>
+               <tr>
+                  <td valign='center' align='middle' colspan='2' width='30' height='30'>
+                     <input type='checkbox' name='enableRadvd' onClick='radvdClick(this)'></td>
+                  <td colspan='2'>Enable RADVD</td>
+               </tr>
+            </table>
+            <p>IPv6 Site Prefix Configuration Type:</p>
+            <table>
+               <tr>
+                  <td colspan="2"><input type='radio' name='prefixType' onClick='prefixTypeClick()'>&nbsp;&nbsp;Delegated from WAN</td>
+               </tr>
+               <tr>
+	              <td width='180'>WAN Interface selected:</td>
+	              <td><select name='wanIf'><script language="javascript">
+<!-- hide
+{
+   var intfInfo6 = '<%ejGetOther(wanInterfaceInfo, forDns6)%>';
+   var intf6 = intfInfo6.split('|');
+   var i = 0;
+
+   document.write("  <option value=''>");
+   document.writeln("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+   
+   for ( i = 0; i < intf6.length; i++ ) {
+      var names = intf6[i].split('/');
+
+      if ( names[1] == pdIfc )
+         document.write("  <option value='" + names[1] + "' selected>");
+      else
+         document.write("  <option value='" + names[1] + "'>");
+      document.writeln(intf6[i]);
+   }
+}
+// done hiding -->
+</script>
+                  </select></td>
+               </tr>
+               <tr>
+                  <td colspan="2"><input type='radio' name='prefixType' onClick='prefixTypeClick()'>&nbsp;&nbsp;Static</td>
+               </tr>
+               <tr>
+                  <td width='180'>Site Prefix:</td>
+                  <td><input type='text' name='prefix'></td>
+               </tr>
+               <tr>
+                  <td width='180'>Site Prefix Length:</td>
+                  <td><input type='text' name='prefixLen'></td>
+               </tr>
+            </table><br>
+            <br>
+            <table border="0" cellpadding="0" cellspacing="0">
+               <tr>
+                  <td><input type='checkbox' name='chkMldSnp' onClick='mldClick(this)'>&nbsp;&nbsp;Enable MLD Snooping</td>
+               </tr>
+            </table>
+            <br>
+               <tr>
+                  <tr>
+            <div id='mldSnpInfo'>
+            <table border="0" cellpadding="0" cellspacing="0">
+                     <td colspan="2"><input type='radio' name='mldMode'>&nbsp;&nbsp;Standard Mode</td>
+                  </tr>
+                  <tr>
+                     <td colspan="2"><input type='radio' name='mldMode'>&nbsp;&nbsp;Blocking Mode</td>
+                  </tr>
+               </tr>
+            </table>
+            <br>
+            </div>
+            <center>
+               <input type='button' onClick='btnApply()' value='Save/Apply'>
+            </center>
+         </form>
+      </blockquote>
+   </body>
+</html>

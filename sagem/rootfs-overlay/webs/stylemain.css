@@ -1,0 +1,43 @@
+body {
+    font-size: 12px;
+    font-family: "tahoma", "sans-serif", "arial", "helvetica";
+}
+td {
+    font-size: 12px;
+    font-family: "tahoma", "sans-serif", "arial", "helvetica";
+}
+td.hd {
+    font-weight: bold;
+    font-size: 12px;
+    font-family: "tahoma", "sans-serif", "arial", "helvetica";
+}
+tr.hide {
+display:none
+}
+input {
+    font-size: 12px;
+    font-family: "tahoma", "sans-serif", "arial", "helvetica";
+}
+.menuLink {
+    font-weight: bold;
+    font-size: 12px;
+    font-family: "tahoma", "sans-serif", "arial", "helvetica";
+    width: 100%;
+    cursor: pointer;
+    text-decoration: none;
+}
+.menuTitle {
+    font-weight: bold;
+    font-size: 16px;
+    font-family: "tahoma", "sans-serif", "arial", "helvetica";
+    cursor: default;
+    text-decoration: none;
+}
+.selectedLangSTC {
+    font-weight: bold;
+    color:#FFFFFF;
+    font-family: "tahoma", "sans-serif", "arial", "helvetica";
+    background-color:#712c81;
+    cursor: default;
+    text-decoration: none;
+}
