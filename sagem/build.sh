@@ -18,6 +18,8 @@ echo "creating fake device nodes"
 rm "$rootfs/THIS_IS_NOT_YOUR_ROOT_FILESYSTEM"
 rm -rf "$rootfs/home"
 rm -rf "$rootfs/var/*"
+# rm "$rootfs/linuxrc"
+# rm "$rootfs/sbin/init"
 
 cd "$top/sagem/sagem_build"
 make

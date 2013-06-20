@@ -1,10 +1,12 @@
 #! /bin/sh
 
-echo "adfjahskjhfdkajhkjahf" > /var/testjsfkl
 PATH=/usr/sbin:/usr/bin:/sbin:/bin
 export PATH
 
 mount -t proc proc /proc
 /bin/mount -a
-/etc/setup.sh
+( 
+sleep 20
+/etc/setup.sh 
+) &
 #/sbin/inetd
