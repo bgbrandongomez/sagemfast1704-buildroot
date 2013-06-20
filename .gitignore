@@ -15,3 +15,5 @@
 *.pyc
 /firmware.bin
 /site.sh
+authorized_keys
+sshkey

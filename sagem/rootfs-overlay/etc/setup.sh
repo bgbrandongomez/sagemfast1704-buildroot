@@ -14,3 +14,5 @@ if ifconfig br1 > /dev/null 2>&1; then
 fi
 
 udhcpd
+
+ntpd -p 0.pool.ntp.org
