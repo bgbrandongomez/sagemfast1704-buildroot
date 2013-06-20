@@ -13,6 +13,8 @@ if ifconfig br1 > /dev/null 2>&1; then
 	echo 1 > /proc/sys/net/ipv4/ip_forward
 fi
 
+dnsmasq
+
 udhcpd
 
-ntpd -p 0.pool.ntp.org
+ntpd -q -p ptbtime1.ptb.de
