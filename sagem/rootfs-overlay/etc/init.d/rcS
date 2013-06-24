@@ -1,7 +1,8 @@
 #! /bin/sh
 
-PATH=/usr/sbin:/usr/bin:/sbin:/bin
-export PATH
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin
+export LD_LIBRARY_PATH=/lib:/lib/public:/lib/private
+KERNELVER=2.6.21.5
 
 mount -t tmpfs tmpfs -osize=1k /dev
 mkdir /dev/net
@@ -11,8 +12,48 @@ makedevs -d /etc/devtable /
 
 mount -t proc proc /proc
 /bin/mount -a
+
+mkdir -p /var/log /var/run /var/state/dhcp /var/ppp /var/udhcpd /var/zebra /var/siproxd /var/cache /var/lib/misc
+
+echo
+echo "Loading drivers and kernel modules... "
+echo
+
+ifconfig lo 127.0.0.1 netmask 255.0.0.0 broadcast 127.255.255.255 up
+
+test -e /lib/modules/$KERNELVER/extra/pktflow.ko && insmod /lib/modules/$KERNELVER/extra/pktflow.ko
+test -e /lib/modules/$KERNELVER/extra/pktcmf.ko && insmod /lib/modules/$KERNELVER/extra/pktcmf.ko
+test -e /lib/modules/$KERNELVER/extra/profdrvdd.ko && insmod /lib/modules/$KERNELVER/extra/profdrvdd.ko
+test -e /lib/modules/$KERNELVER/extra/bcmxtmcfg.ko && insmod /lib/modules/$KERNELVER/extra/bcmxtmcfg.ko
+test -e /lib/modules/$KERNELVER/extra/atmapi.ko && insmod /lib/modules/$KERNELVER/extra/atmapi.ko
+test -e /lib/modules/$KERNELVER/extra/atmbonding.ko && insmod /lib/modules/$KERNELVER/extra/atmbonding.ko
+test -e /lib/modules/$KERNELVER/extra/atmbondingeth.ko && insmod /lib/modules/$KERNELVER/extra/atmbondingeth.ko
+test -e /lib/modules/$KERNELVER/extra/adsldd.ko && insmod /lib/modules/$KERNELVER/extra/adsldd.ko
+test -e /lib/modules/$KERNELVER/extra/blaa_dd.ko && insmod /lib/modules/$KERNELVER/extra/blaa_dd.ko
+test -e /lib/modules/$KERNELVER/extra/bcmprocfs.ko && insmod /lib/modules/$KERNELVER/extra/bcmprocfs.ko
+# test -e /lib/modules/$KERNELVER/kernel/net/ipv6/ipv6.ko && insmod /lib/modules/$KERNELVER/kernel/net/ipv6/ipv6.ko
+test -e /lib/modules/$KERNELVER/kernel/net/atm/br2684.ko && insmod /lib/modules/$KERNELVER/kernel/net/atm/br2684.ko
+test -e /lib/modules/$KERNELVER/extra/bcm_enet.ko && insmod /lib/modules/$KERNELVER/extra/bcm_enet.ko
+test -e /lib/modules/$KERNELVER/extra/bcmsw.ko && insmod /lib/modules/$KERNELVER/extra/bcmsw.ko && ifconfig bcmsw up
+test -e /lib/modules/$KERNELVER/extra/bcm_usb.ko && insmod /lib/modules/$KERNELVER/extra/bcm_usb.ko
+test -e /lib/modules/$KERNELVER/extra/wl.ko && insmod /lib/modules/$KERNELVER/extra/wl.ko
+test -e /lib/modules/$KERNELVER/extra/dspdd.ko && insmod /lib/modules/$KERNELVER/extra/dspdd.ko
+test -e /lib/modules/$KERNELVER/extra/endpointdd.ko && insmod /lib/modules/$KERNELVER/extra/endpointdd.ko
+test -e /lib/modules/$KERNELVER/extra/p8021ag.ko && insmod /lib/modules/$KERNELVER/extra/p8021ag.ko
+# 3g modules
+# test -e /lib/modules/$KERNELVER/kernel/drivers/usb/serial/usbserial.ko && insmod /lib/modules/$KERNELVER/kernel/drivers/usb/serial/usbserial.ko
+# test -e /lib/modules/$KERNELVER/kernel/drivers/usb/serial/option.ko && insmod /lib/modules/$KERNELVER/kernel/drivers/usb/serial/option.ko
+# other modules
+test -e /lib/modules/$KERNELVER/extra/isdn.ko && insmod /lib/modules/$KERNELVER/extra/isdn.ko
+test -e /lib/modules/$KERNELVER/kernel/drivers/isdn/capi/capi.ko && insmod /lib/modules/$KERNELVER/kernel/drivers/isdn/capi/capi.ko 
+test -e /lib/modules/$KERNELVER/extra/bcmgpon.ko && insmod /lib/modules/$KERNELVER/extra/bcmgpon.ko RESETONLOS=1 omciGemPortMap=1
+test -e /lib/modules/$KERNELVER/extra/bcmgpon.ko && insmod /etc/gpon/modules/gpio.ko
+
+ifconfig eth0 192.168.1.1 netmask 255.255.255.0 broadcast 192.168.1.255 up
+
+dropbear
+
 ( 
 sleep 20
 /etc/setup.sh 
 ) &
-#/sbin/inetd
