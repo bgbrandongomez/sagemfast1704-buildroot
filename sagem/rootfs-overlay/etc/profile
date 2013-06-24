@@ -17,7 +17,6 @@ if [ "$firsttime" = "/var/udhcpd/udhcpd.lease*" ]; then
 # no-op
 # create directory in /var mounted for TMPFS
  mkdir -p /var/log /var/run /var/state/dhcp /var/ppp /var/udhcpd /var/zebra /var/siproxd /var/cache /var/lib/misc
- echo > /var/udhcpd/udhcpd.leases
  ifconfig lo 127.0.0.1 netmask 255.0.0.0 broadcast 127.255.255.255 up
 # /etc/modules_install /lib/modules/$KERNELVER/extra
  test -e /lib/modules/$KERNELVER/extra/pktflow.ko && insmod /lib/modules/$KERNELVER/extra/pktflow.ko
@@ -47,6 +46,7 @@ if [ "$firsttime" = "/var/udhcpd/udhcpd.lease*" ]; then
  test -e /lib/modules/$KERNELVER/kernel/drivers/isdn/capi/capi.ko && insmod /lib/modules/$KERNELVER/kernel/drivers/isdn/capi/capi.ko 
  test -e /lib/modules/$KERNELVER/extra/bcmgpon.ko && insmod /lib/modules/$KERNELVER/extra/bcmgpon.ko RESETONLOS=1 omciGemPortMap=1
  test -e /lib/modules/$KERNELVER/extra/bcmgpon.ko && insmod /etc/gpon/modules/gpio.ko
- smd
+ ifconfig eth0 192.168.1.1 netmask 255.255.255.0 broadcast 192.168.1.255 up
+ dropbear
 fi
 

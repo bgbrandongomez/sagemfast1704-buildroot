@@ -5,8 +5,8 @@ export PATH
 
 mount -t tmpfs tmpfs -osize=1k /dev
 mkdir /dev/net
-# ln -s /var/log/log /dev/log
-# ln -s /dev/ram1 /dev/ram
+ln -s /var/log/log /dev/log
+ln -s /dev/ram1 /dev/ram
 makedevs -d /etc/devtable /
 
 mount -t proc proc /proc
