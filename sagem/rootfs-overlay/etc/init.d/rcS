@@ -15,6 +15,9 @@ mount -t proc proc /proc
 
 mkdir -p /var/log /var/run /var/state/dhcp /var/ppp /var/udhcpd /var/zebra /var/siproxd /var/cache /var/lib/misc
 
+exec > /var/log/init.log
+exec 2> /var/log/init.log
+
 echo
 echo "Loading drivers and kernel modules... "
 echo
