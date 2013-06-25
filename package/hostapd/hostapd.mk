@@ -4,12 +4,12 @@
 #
 #############################################################
 
-HOSTAPD_VERSION = 0.7.3
+HOSTAPD_VERSION = 2.0
 HOSTAPD_SITE = http://hostap.epitest.fi/releases
 HOSTAPD_SUBDIR = hostapd
 HOSTAPD_CONFIG = $(HOSTAPD_DIR)/$(HOSTAPD_SUBDIR)/.config
 HOSTAPD_DEPENDENCIES = libnl
-HOSTAPD_CFLAGS = $(TARGET_CFLAGS) -I$(STAGING_DIR)/usr/include/libnl3/
+# HOSTAPD_CFLAGS = $(TARGET_CFLAGS) -I$(STAGING_DIR)/usr/include/libnl3/
 HOSTAPD_LDFLAGS = $(TARGET_LDFLAGS)
 HOSTAPD_LICENSE = GPLv2/BSD-3c
 HOSTAPD_LICENSE_FILES = README
@@ -19,9 +19,13 @@ ifeq ($(BR2_PREFER_STATIC_LIB),y)
 HOSTAPD_LDFLAGS += -lm
 endif
 
+# define HOSTAPD_NL80211_CONFIG
+# 	echo 'CONFIG_LIBNL32=y' >>$(HOSTAPD_CONFIG)
+# 	$(SED) 's/\(#\)\(CONFIG_VLAN_NETLINK.*\)/\2/' $(HOSTAPD_CONFIG)
+# endef
+
 define HOSTAPD_LIBNL_CONFIG
-	echo 'CONFIG_LIBNL32=y' >>$(HOSTAPD_CONFIG)
-	$(SED) 's/\(#\)\(CONFIG_VLAN_NETLINK.*\)/\2/' $(HOSTAPD_CONFIG)
+	$(SED) 's/\(#\)\(CONFIG_DRIVER_NL80211.*\)/\2/' $(HOSTAPD_CONFIG)
 endef
 
 define HOSTAPD_LIBTOMMATH_CONFIG

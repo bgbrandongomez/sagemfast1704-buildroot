@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cat /etc/nvram-default | while read line; do
+	nvram set "${line%%=*}"="${line#*=}"
+done
