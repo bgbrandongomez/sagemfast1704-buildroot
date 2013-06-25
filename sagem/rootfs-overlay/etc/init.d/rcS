@@ -15,8 +15,8 @@ mount -t proc proc /proc
 
 mkdir -p /var/log /var/run /var/state/dhcp /var/ppp /var/udhcpd /var/zebra /var/siproxd /var/cache /var/lib/misc
 
-exec > /var/log/init.log
-exec 2> /var/log/init.log
+exec > /var/log/init-stdout.log
+exec 2> /var/log/init-stderr.log
 
 echo
 echo "Loading drivers and kernel modules... "
@@ -52,7 +52,12 @@ test -e /lib/modules/$KERNELVER/kernel/drivers/isdn/capi/capi.ko && insmod /lib/
 test -e /lib/modules/$KERNELVER/extra/bcmgpon.ko && insmod /lib/modules/$KERNELVER/extra/bcmgpon.ko RESETONLOS=1 omciGemPortMap=1
 test -e /lib/modules/$KERNELVER/extra/bcmgpon.ko && insmod /etc/gpon/modules/gpio.ko
 
-ifconfig eth0 192.168.1.1 netmask 255.255.255.0 broadcast 192.168.1.255 up
+ifconfig eth0 0.0.0.0 up
+ifconfig wl0 0.0.0.0 up
+brctl addbr br0
+brctl addif br0 eth0
+brctl addif br0 wl0
+ifconfig br0 192.168.1.1 netmask 255.255.255.0 broadcast 192.168.1.255 up
 
 dropbear
 
