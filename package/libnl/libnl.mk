@@ -4,7 +4,7 @@
 #
 #############################################################
 
-LIBNL_VERSION = 1.0-pre6
+LIBNL_VERSION = 1.0-pre8
 LIBNL_SITE = http://www.infradead.org/~tgr/libnl/files
 LIBNL_LICENSE = LGPLv2.1+
 LIBNL_LICENSE_FILES = COPYING
