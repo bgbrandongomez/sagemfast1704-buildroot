@@ -4,7 +4,7 @@
 #
 #############################################################
 
-HOSTAPD_VERSION = 2.0
+HOSTAPD_VERSION = 0.7.3
 HOSTAPD_SITE = http://hostap.epitest.fi/releases
 HOSTAPD_SUBDIR = hostapd
 HOSTAPD_CONFIG = $(HOSTAPD_DIR)/$(HOSTAPD_SUBDIR)/.config

@@ -15,5 +15,6 @@
 *.pyc
 /firmware.bin
 /site.sh
+/.buildroot-ccache
 authorized_keys
 sshkey

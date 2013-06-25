@@ -57,11 +57,21 @@ ifconfig wl0 0.0.0.0 up
 brctl addbr br0
 brctl addif br0 eth0
 brctl addif br0 wl0
-ifconfig br0 192.168.1.1 netmask 255.255.255.0 broadcast 192.168.1.255 up
+ifconfig br0 192.168.5.2 netmask 255.255.255.240 broadcast 192.168.5.15 up
+
+dnsmasq
 
 dropbear
 
-( 
-sleep 20
-/etc/setup.sh 
-) &
+# if ifconfig br1 > /dev/null 2>&1; then
+# 	# set default gateway using the ip from the br1 interface
+# 	gateway="`ifconfig br1 | grep "inet addr" | awk -F: '{print $2}' |\
+# 		awk '{print $1}' | awk -F. '{print $1 "." $2 "." $3}'`".1
+# 	route add default gw $gateway
+
+# 	# translate lan ip addresses to the br1 ip address
+# 	/usr/sbin/iptables -t nat -A POSTROUTING -o br1 -j MASQUERADE
+
+# 	# activate linux ip forwarding
+# 	echo 1 > /proc/sys/net/ipv4/ip_forward
+# fi
