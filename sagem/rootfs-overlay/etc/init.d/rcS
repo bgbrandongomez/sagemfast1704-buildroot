@@ -43,9 +43,6 @@ test -e /lib/modules/$KERNELVER/extra/wl.ko && insmod /lib/modules/$KERNELVER/ex
 test -e /lib/modules/$KERNELVER/extra/dspdd.ko && insmod /lib/modules/$KERNELVER/extra/dspdd.ko
 test -e /lib/modules/$KERNELVER/extra/endpointdd.ko && insmod /lib/modules/$KERNELVER/extra/endpointdd.ko
 test -e /lib/modules/$KERNELVER/extra/p8021ag.ko && insmod /lib/modules/$KERNELVER/extra/p8021ag.ko
-# 3g modules
-# test -e /lib/modules/$KERNELVER/kernel/drivers/usb/serial/usbserial.ko && insmod /lib/modules/$KERNELVER/kernel/drivers/usb/serial/usbserial.ko
-# test -e /lib/modules/$KERNELVER/kernel/drivers/usb/serial/option.ko && insmod /lib/modules/$KERNELVER/kernel/drivers/usb/serial/option.ko
 # other modules
 test -e /lib/modules/$KERNELVER/extra/isdn.ko && insmod /lib/modules/$KERNELVER/extra/isdn.ko
 test -e /lib/modules/$KERNELVER/kernel/drivers/isdn/capi/capi.ko && insmod /lib/modules/$KERNELVER/kernel/drivers/isdn/capi/capi.ko 
