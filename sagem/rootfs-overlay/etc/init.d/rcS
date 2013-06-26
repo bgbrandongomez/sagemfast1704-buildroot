@@ -22,8 +22,6 @@ echo
 echo "Loading drivers and kernel modules... "
 echo
 
-# reset-nvram
-
 ifconfig lo 127.0.0.1 netmask 255.0.0.0 broadcast 127.255.255.255 up
 
 test -e /lib/modules/$KERNELVER/extra/pktflow.ko && insmod /lib/modules/$KERNELVER/extra/pktflow.ko
@@ -51,14 +49,40 @@ test -e /lib/modules/$KERNELVER/kernel/drivers/isdn/capi/capi.ko && insmod /lib/
 test -e /lib/modules/$KERNELVER/extra/bcmgpon.ko && insmod /lib/modules/$KERNELVER/extra/bcmgpon.ko RESETONLOS=1 omciGemPortMap=1
 test -e /lib/modules/$KERNELVER/extra/bcmgpon.ko && insmod /etc/gpon/modules/gpio.ko
 
+
 ifconfig eth0 0.0.0.0 up
 ifconfig wl0 0.0.0.0 up
 brctl addbr br0
 brctl addif br0 eth0
 brctl addif br0 wl0
-ifconfig br0 192.168.5.2 netmask 255.255.255.240 broadcast 192.168.5.15 up
+ifconfig br0 192.168.1.1 netmask 255.255.255.0 broadcast 192.168.1.255 up
 
-route add default gw 192.168.5.1
+(
+bcmupnp -D
+lld2d br0
+eapd
+nas
+wps_monitor
+) &
+
+wl down
+wl ap 1
+wl auth 0
+wl ssid "GVT-8CDA"
+wl wsec 14
+wl wsec_restrict 1
+wl eap 1
+wl eap_restrict 1
+wl ap_isolate 1
+wl wpa_auth 128
+wl radio on
+wl bi 100
+wl clk 1
+wl promisc 1
+wl infra 1
+wl up
+
+# route add default gw 192.168.1.1
 
 dnsmasq
 
